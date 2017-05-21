@@ -1,0 +1,73 @@
+import sys
+from random import randint
+
+def randompick (n):
+    flag = True
+    while flag:
+        x = randint(1,n)
+        counter = 0
+        for l in D:
+            if x in l:
+                counter += 1
+        if counter < ((n - 1) // 2):
+            flag = False
+    return x
+
+def uniquepair (x,y):
+    for l in D:
+        if (x in l and y in l):
+            return False
+    return True
+
+def randompairs (x):
+    flag = True
+    while flag:
+        y = randint(1,n)
+        while x == y:
+            y = randint(1,n)
+        if uniquepair(x,y):
+            flag = False
+    flag = True
+    while flag:
+        z = randint(1,n)
+        while x == z or y == z:
+            z = randint(1,n)
+        if uniquepair(x,z):
+            flag = False
+    return y , z
+
+def blockcreator (cd,x,y,z):
+    for i in range (len(D)):
+        if (y in D[i] and z in D[i]):
+            D.pop(i)
+            cd += 1
+            break
+    templist = [x,y,z]
+    templist.sort()
+    D.append(templist)
+    cd -= 1
+    return cd
+
+def printing ():
+    c = 0
+    D.sort()
+    print ("[",end = '')
+    for l in D:
+        c += 1
+        if c < len(D):
+            print ("(",l[0],", ",l[1],", ",l[2],"), ", sep ='' , end = '')
+        else:
+            print ("(",l[0],", ",l[1],", ",l[2],")]", sep ='')
+    print (len(D))
+    
+            
+n = int(sys.argv[1])
+D = []
+cd = n*(n - 1)// 6
+
+while cd > 0:
+    x = randompick(n)
+    y , z = randompairs(x)
+    cd = blockcreator(cd,x,y,z)
+
+printing()
